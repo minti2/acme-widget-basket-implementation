@@ -5,8 +5,8 @@ This is a proof of concept implementation of a shopping basket system for Acme W
 
 ## Features
 
-- Product catalog management
-- Tiered delivery cost calculation
+- Product catalog management with predefined products
+- Tiered delivery cost calculation based on order total
 - Special offer handling (e.g., "buy one red widget, get the second half price")
 - Unit tests for all scenarios
 - Docker development environment
@@ -21,8 +21,8 @@ This is a proof of concept implementation of a shopping basket system for Acme W
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd acme-widget-basket
+git clone https://github.com/minti2/acme-widget-basket-implementation.git
+cd acme-widget-basket-implementation
 ```
 
 2. Install dependencies:
@@ -60,8 +60,8 @@ composer analyse
 ```
 src/
 ├── Domain/
-│   ├── Basket.php
-│   ├── Product.php
+│   ├── Basket.php              # Main basket implementation
+│   ├── Product.php             # Product value object
 │   ├── Delivery/
 │   │   ├── DeliveryStrategyInterface.php
 │   │   └── TieredDeliveryStrategy.php
@@ -70,7 +70,7 @@ src/
 │       └── RedWidgetHalfPriceStrategy.php
 tests/
 └── Domain/
-    └── BasketTest.php
+    └── BasketTest.php          # Test cases for basket functionality
 ```
 
 ## Design Decisions
@@ -81,13 +81,20 @@ tests/
 4. **Immutability**: Product objects are immutable to prevent accidental state changes.
 5. **Type Safety**: Strict typing and return type declarations throughout the codebase.
 
-## Assumptions
+## Business Rules
 
-1. All prices are in USD
-2. Product codes are case-sensitive
-3. Delivery costs are calculated based on the basket total
-4. Special offers are applied before delivery costs
-5. The product catalog is fixed and provided at basket initialization
+1. **Delivery Costs**:
+   - Orders under $50: $4.95
+   - Orders under $90: $2.95
+   - Orders $90 and over: Free delivery
+
+2. **Special Offers**:
+   - Red Widget Offer: Buy one red widget, get the second half price
+
+3. **Product Catalog**:
+   - B01: Blue Widget - $7.95
+   - G01: Green Widget - $24.95
+   - R01: Red Widget - $32.95
 
 ## Example Usage
 
